@@ -9,7 +9,7 @@ RRTPlanner::RRTPlanner() {
   private_nh_.param("max_vertices", max_vertices_, 1500);
   private_nh_.param("step_size", step_, 20);
 
-  // cv::namedWindow("Path");
+  cv::namedWindow("Path");
 }
 
 Vertex RRTPlanner::findClosestPoint(Vertex point) {
@@ -81,25 +81,25 @@ void RRTPlanner::addToGraph(std::vector<Vertex> &newPoints, Vertex point) {
     for (p = 0; p < newPoints.size() - 1; p++) {
       graph_->add(newPoints[p], newPoints[p + 1]);
 
-      // if (p != 0)
-      //   cv::circle(display_map_, cv::Point(newPoints[p].x, newPoints[p].y), 1, cv::Scalar(0, 255, 255), -1);
+      if (p != 0)
+        cv::circle(display_map_, cv::Point(newPoints[p].x, newPoints[p].y), 1, cv::Scalar(0, 255, 255), -1);
 
-      // cv::line(display_map_,
-      //          cv::Point(newPoints[p].x, newPoints[p].y),
-      //          cv::Point(newPoints[p + 1].x, newPoints[p + 1].y),
-      //          cv::Scalar(255, 0, 0),
-      //          1);
+      cv::line(display_map_,
+               cv::Point(newPoints[p].x, newPoints[p].y),
+               cv::Point(newPoints[p + 1].x, newPoints[p + 1].y),
+               cv::Scalar(255, 0, 0),
+               1);
     }
 
-    // if (findInPoints(newPoints, point))
-    //   cv::circle(display_map_, cv::Point(point.x, point.y), 1, cv::Scalar(0, 255, 0), -1);
-    // else
-    //   cv::circle(display_map_, cv::Point(newPoints[p + 1].x, newPoints[p + 1].y), 1, cv::Scalar(255, 0, 0), -1);
+    if (findInPoints(newPoints, point))
+      cv::circle(display_map_, cv::Point(point.x, point.y), 1, cv::Scalar(0, 255, 0), -1);
+    else
+      cv::circle(display_map_, cv::Point(newPoints[p + 1].x, newPoints[p + 1].y), 1, cv::Scalar(255, 0, 0), -1);
   }
 }
 
 std::vector<Vertex> RRTPlanner::getPath(Vertex src, Vertex dest) {
-  std::cout<<"In get path";
+  // std::cout<<"In get path";
   auto srcNode = graph_->find(src);
   auto destNode = graph_->find(dest);
   std::vector<Vertex> path;
@@ -109,35 +109,40 @@ std::vector<Vertex> RRTPlanner::getPath(Vertex src, Vertex dest) {
 }
 
 std::vector<Vertex> RRTPlanner::getPlan() {
-  
-  // cv::circle(display_map_, cv::Point(pose_.x, pose_.y), 3, cv::Scalar(0, 255, 0), -1);
-  // cv::circle(display_map_, cv::Point(goal_.x, goal_.y), 3, cv::Scalar(0, 0, 255), -1);
+  path_tranformed.clear(); 
+  ROS_INFO("In 1");
+  cv::circle(display_map_, cv::Point(pose_.x, pose_.y), 3, cv::Scalar(0, 255, 0), -1);
+  cv::circle(display_map_, cv::Point(goal_.x, goal_.y), 3, cv::Scalar(0, 0, 255), -1);
 
   std::vector<Vertex> newPoints;
 
   // Check if goal is reachable from starting position
   newPoints = connectPoints(goal_, pose_);
   if (findInPoints(newPoints, goal_)) {
+     ROS_INFO("In 2");
     for (int i = 0; i < newPoints.size() - 1; i++) {
       Vertex p;
       p.x = (newPoints[i].x)/10;
       p.y =  (600 - newPoints[i].y)/10;
       path_tranformed.emplace_back(p);
-    //   cv::line(display_map_,
-    //            cv::Point(newPoints[i].x, newPoints[i].y),
-    //            cv::Point(newPoints[i + 1].x, newPoints[i + 1].y),
-    //            cv::Scalar(0, 0, 255),
-    //            1);
-    //   if (i != 0)
-    //     cv::circle(display_map_, cv::Point(newPoints[i].x, newPoints[i].y), 1, cv::Scalar(0, 255, 255), -1);
+      std::cout<<(path_tranformed[i].x)<<","<<(path_tranformed[i].y)<<"\n";
+      cv::line(display_map_,
+               cv::Point(newPoints[i].x, newPoints[i].y),
+               cv::Point(newPoints[i + 1].x, newPoints[i + 1].y),
+               cv::Scalar(0, 0, 255),
+               1);
+      if (i != 0)
+        cv::circle(display_map_, cv::Point(newPoints[i].x, newPoints[i].y), 1, cv::Scalar(0, 255, 255), -1);
     }
-    // cv::imshow("Path", display_map_);
-    // cv::waitKey(1);
+    cv::imshow("Path", display_map_);
+    cv::waitKey(1);
+    start_flag = true;
     return path_tranformed;
   }
+   ROS_INFO("In 3");
 // ROS_INFO("Got Plan indeded");
-  // cv::circle(display_map_, cv::Point(pose_.x, pose_.y), 3, cv::Scalar(0, 255, 0), -1);
-  // cv::circle(display_map_, cv::Point(goal_.x, goal_.y), 3, cv::Scalar(0, 0, 255), -1);
+  cv::circle(display_map_, cv::Point(pose_.x, pose_.y), 3, cv::Scalar(0, 255, 0), -1);
+  cv::circle(display_map_, cv::Point(goal_.x, goal_.y), 3, cv::Scalar(0, 0, 255), -1);
 
   graph_.reset(new Graph());
   graph_->add(pose_);
@@ -155,9 +160,9 @@ std::vector<Vertex> RRTPlanner::getPlan() {
 
   Vertex randomPoint;
   Vertex closestPoint;
-
+ ROS_INFO("In 4");
   while (graph_->find(goal_) == nullptr && graph_->getSize() < max_vertices_ && totalPoints < 30000) {
-
+    
     if (totalPoints % 100 == 0)
       ROS_INFO("Random points generated: %d", totalPoints);
 
@@ -186,10 +191,10 @@ std::vector<Vertex> RRTPlanner::getPlan() {
     newPoints = connectPoints(goal_, closestPoint);
     addToGraph(newPoints, goal_);
 
-    // cv::imshow("Path", display_map_);
-    // cv::waitKey(1);
+    cv::imshow("Path", display_map_);
+    cv::waitKey(1);
   }
-
+   ROS_INFO("In 5");
   std::vector<Vertex> path;
   
   if (graph_->find(goal_) != nullptr) {
@@ -201,16 +206,16 @@ std::vector<Vertex> RRTPlanner::getPlan() {
       p.x = (path[i].x)/10;
       p.y =  (600 - path[i].y)/10;
       path_tranformed.emplace_back(p);
-      // std::cout<<(path_tranformed[i].x)<<","<<(path_tranformed[i].y)<<"\n";
-      // cv::line(display_map_, cv::Point(path[i].x, path[i].y), cv::Point(path[i+1].x, path[i+1].y), cv::Scalar(0, 0, 255), 1);
+      std::cout<<(path_tranformed[i].x)<<","<<(path_tranformed[i].y)<<"\n";
+      cv::line(display_map_, cv::Point(path[i].x, path[i].y), cv::Point(path[i+1].x, path[i+1].y), cv::Scalar(0, 0, 255), 1);
     }
   } else
     ROS_INFO("Could not reach goal");
-
+  ROS_INFO("In 6");
   ROS_INFO("Total vertex in graph: %d", graph_->getSize());
 
-  // cv::imshow("Path", display_map_);
-  // cv::waitKey(100);
+  cv::imshow("Path", display_map_);
+  cv::waitKey(100);
   start_flag = true;
   return path_tranformed;
 }
