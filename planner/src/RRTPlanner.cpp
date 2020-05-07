@@ -109,7 +109,7 @@ std::vector<Vertex> RRTPlanner::getPath(Vertex src, Vertex dest) {
 }
 
 std::vector<Vertex> RRTPlanner::getPlan() {
-  std::cout<<"In get PLAN";
+  
   // cv::circle(display_map_, cv::Point(pose_.x, pose_.y), 3, cv::Scalar(0, 255, 0), -1);
   // cv::circle(display_map_, cv::Point(goal_.x, goal_.y), 3, cv::Scalar(0, 0, 255), -1);
 
@@ -118,7 +118,11 @@ std::vector<Vertex> RRTPlanner::getPlan() {
   // Check if goal is reachable from starting position
   newPoints = connectPoints(goal_, pose_);
   if (findInPoints(newPoints, goal_)) {
-    // for (int i = 0; i < newPoints.size() - 1; i++) {
+    for (int i = 0; i < newPoints.size() - 1; i++) {
+      Vertex p;
+      p.x = (newPoints[i].x)/10;
+      p.y =  (600 - newPoints[i].y)/10;
+      path_tranformed.emplace_back(p);
     //   cv::line(display_map_,
     //            cv::Point(newPoints[i].x, newPoints[i].y),
     //            cv::Point(newPoints[i + 1].x, newPoints[i + 1].y),
@@ -126,12 +130,12 @@ std::vector<Vertex> RRTPlanner::getPlan() {
     //            1);
     //   if (i != 0)
     //     cv::circle(display_map_, cv::Point(newPoints[i].x, newPoints[i].y), 1, cv::Scalar(0, 255, 255), -1);
-    // }
+    }
     // cv::imshow("Path", display_map_);
     // cv::waitKey(1);
-    return newPoints;
+    return path_tranformed;
   }
-
+// ROS_INFO("Got Plan indeded");
   // cv::circle(display_map_, cv::Point(pose_.x, pose_.y), 3, cv::Scalar(0, 255, 0), -1);
   // cv::circle(display_map_, cv::Point(goal_.x, goal_.y), 3, cv::Scalar(0, 0, 255), -1);
 
