@@ -163,8 +163,8 @@ std::vector<Vertex> RRTPlanner::getPlan() {
 //  ROS_INFO("In 4");
   while (graph_->find(goal_) == nullptr && graph_->getSize() < max_vertices_ && totalPoints < 30000) {
     
-    if (totalPoints % 100 == 0)
-      ROS_INFO("Random points generated: %d", totalPoints);
+    // if (totalPoints % 100 == 0)
+    //   ROS_INFO("Random points generated: %d", totalPoints);
 
     // keep sampling till sampled point is not occupied by an obstacle
     occupied = true;

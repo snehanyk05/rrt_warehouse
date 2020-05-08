@@ -10,7 +10,7 @@
 #include <nav_msgs/OccupancyGrid.h>
 #include <geometry_msgs/Pose2D.h>
 #include <geometry_msgs/PoseStamped.h>
-// #include "planner/Num.h"
+#include "planner/Num.h"
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -47,7 +47,7 @@ class Planner {
   void poseCallback(const geometry_msgs::Pose2D::ConstPtr &pose);
   void goalMBCallback(const geometry_msgs::PoseStamped::ConstPtr &goal);
   void poseMBCallback(const geometry_msgs::PoseStamped::ConstPtr &pose);
-  // void updateMapCallback(const planner::Num &update) ;
+  void updateMapCallback(const planner::Num &update) ;
 
   ros::Publisher pose_pub_;
   ros::Publisher goal_pub_;
