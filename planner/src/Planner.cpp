@@ -108,7 +108,7 @@ void Planner::updateMapCallback(const planner::Num &update) {
 
   for (int i = 0; i < height_; i++) {
     for (int j = 0; j < 1000; j++) {
-      if( (i <=(y+5) && i> (y-5)) && (j <=(x+5) && j> (x-5)))
+      if( (i <=(y+3) && i> (y-3)) && (j <=(x+3) && j> (x-3)))
       {
       unsigned char value = (unsigned char) 255;
       map_.at<cv::Vec3b>(i, j) = cv::Vec3b(value, value, value);

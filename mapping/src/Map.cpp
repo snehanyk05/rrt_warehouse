@@ -66,6 +66,12 @@ void Map::publishMap() {
   grid.info.origin.orientation.w = 1.0;
 
   grid.data.resize(grid.info.width * grid.info.height);
+  
+  cv::Mat src = map_.clone();
+  cv::Mat se = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(2 * 2, 2 * 2));
+  erode(src, map_, se, cv::Point(-1, -1), 6);
+  
+
 
   for(unsigned int i = 0; i < grid.info.height; i++) {
     for (unsigned int j = 0; j < grid.info.width; j++) {
