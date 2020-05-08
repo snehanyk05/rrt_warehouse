@@ -11,7 +11,14 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 find_package(OpenCV REQUIRED)
-
+add_message_files(
+  FILES
+  Num.msg
+)
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
 catkin_package(CATKIN_DEPENDS
         roscpp
         geometry_msgs
@@ -25,6 +32,7 @@ include_directories(
         ${catkin_INCLUDE_DIRS}
         ${OpenCV_INCLUDE_DIRS}
 )
+
 
 add_library(${PROJECT_NAME}_LIBRARIES SHARED
         src/Planner.cpp

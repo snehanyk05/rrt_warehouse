@@ -4,8 +4,9 @@
         <param name="map_topic" value="/map"/>
         <param name="goal_topic" value="goal"/>
         <param name="pose_topic" value="pose"/>
+        <param name="map_update" value="/map_update"/>
         <param name="height" value="60"/>
-        <param name="max_vertices" value="2000"/>
+        <param name="max_vertices" value="9000"/>
         <param name="step_size" value="20"/>
         <remap from="/$(arg robot)/map" to="/map"/>
     </node>

@@ -10,6 +10,7 @@
 #include <nav_msgs/OccupancyGrid.h>
 #include <geometry_msgs/Pose2D.h>
 #include <geometry_msgs/PoseStamped.h>
+// #include "planner/Num.h"
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -24,13 +25,14 @@ class Planner {
  public:
 
   Planner();
-std::string map_topic_;
+
   virtual std::vector<Vertex> getPlan() = 0;
 
  protected:
   Vertex goal_;
   Vertex pose_;
 
+  cv::Mat og_map_;
   cv::Mat map_;
   cv::Mat display_map_;
 
@@ -45,6 +47,7 @@ std::string map_topic_;
   void poseCallback(const geometry_msgs::Pose2D::ConstPtr &pose);
   void goalMBCallback(const geometry_msgs::PoseStamped::ConstPtr &goal);
   void poseMBCallback(const geometry_msgs::PoseStamped::ConstPtr &pose);
+  // void updateMapCallback(const planner::Num &update) ;
 
   ros::Publisher pose_pub_;
   ros::Publisher goal_pub_;
@@ -53,10 +56,12 @@ std::string map_topic_;
   ros::Subscriber pose_sub_;
   ros::Subscriber goal_sub_mb;
   ros::Subscriber pose_sub_mb;
-
+  ros::Subscriber map_update_sub;
   
   std::string goal_topic_;
   std::string pose_topic_;
+  std::string map_topic_;
+  std::string map_update_;
 
   bool pose_set_;
 
