@@ -68,8 +68,8 @@ void Map::publishMap() {
   grid.data.resize(grid.info.width * grid.info.height);
   
   cv::Mat src = map_.clone();
-  cv::Mat se = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(2 * 2, 2 * 2));
-  erode(src, map_, se, cv::Point(-1, -1), 6);
+  cv::Mat se = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(2 * 1.6, 2 * 1.6));
+  erode(src, map_, se, cv::Point(-1, -1), 4);
   
 
 

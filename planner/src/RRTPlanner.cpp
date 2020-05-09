@@ -9,7 +9,7 @@ RRTPlanner::RRTPlanner() {
   private_nh_.param("max_vertices", max_vertices_, 1500);
   private_nh_.param("step_size", step_, 20);
 
-  cv::namedWindow("Path");
+  // cv::namedWindow("Path");
 }
 
 Vertex RRTPlanner::findClosestPoint(Vertex point) {
@@ -134,8 +134,8 @@ std::vector<Vertex> RRTPlanner::getPlan() {
       if (i != 0)
         cv::circle(display_map_, cv::Point(newPoints[i].x, newPoints[i].y), 1, cv::Scalar(0, 255, 255), -1);
     }
-    cv::imshow("Path", display_map_);
-    cv::waitKey(1);
+    // cv::imshow("Path", display_map_);
+    // cv::waitKey(1);
     start_flag = true;
     return path_tranformed;
   }
@@ -191,8 +191,8 @@ std::vector<Vertex> RRTPlanner::getPlan() {
     newPoints = connectPoints(goal_, closestPoint);
     addToGraph(newPoints, goal_);
 
-    cv::imshow("Path", display_map_);
-    cv::waitKey(1);
+    // cv::imshow("Path", display_map_);
+    // cv::waitKey(1);
   }
   //  ROS_INFO("In 5");
   std::vector<Vertex> path;
@@ -214,13 +214,18 @@ std::vector<Vertex> RRTPlanner::getPlan() {
   // ROS_INFO("In 6");
   ROS_INFO("Total vertex in graph: %d", graph_->getSize());
 
-  cv::imshow("Path", display_map_);
-  cv::waitKey(100);
+  // cv::imshow("Path", display_map_);
+  // cv::waitKey(100);
   start_flag = true;
   return path_tranformed;
 }
 
 std::vector<Vertex> RRTPlanner::queryPlan() {
+  // if(path_tranformed.empty())
+  // {
+    // cv::imshow("Path", display_map_);
+    // cv::waitKey(1);
+  // }
   return path_tranformed;
 }
 

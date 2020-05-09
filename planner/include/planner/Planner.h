@@ -1,6 +1,4 @@
-//
-// Created by naivehobo on 11/10/19.
-//
+
 
 #ifndef RRT_PLANNER_PLANNER_H
 #define RRT_PLANNER_PLANNER_H
@@ -10,7 +8,7 @@
 #include <nav_msgs/OccupancyGrid.h>
 #include <geometry_msgs/Pose2D.h>
 #include <geometry_msgs/PoseStamped.h>
-#include "planner/Num.h"
+
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -19,7 +17,7 @@
 #include <vector>
 
 #include "planner/Graph.h"
-
+#include "planner/Num.h"
 
 class Planner {
  public:

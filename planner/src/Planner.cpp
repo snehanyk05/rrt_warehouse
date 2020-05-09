@@ -27,7 +27,7 @@ Planner::Planner() : private_nh_("~") {
   pose_pub_ = nh_.advertise<geometry_msgs::Pose2D>(pose_topic_, 1);
 
   height_ = height_*10;
-  cv::namedWindow("Map");
+  // cv::namedWindow("Map");
   ROS_INFO("Planner node initialized");
 }
 
@@ -75,9 +75,23 @@ void Planner::goalMBCallback(const geometry_msgs::PoseStamped::ConstPtr &goal) {
   goal_mb.x = (goal->pose.position.x*10);
   goal_mb.y = (height_ - goal->pose.position.y*10);
   ROS_INFO("Recieved goal: (%lf, %lf)", goal->pose.position.x, goal->pose.position.y);
+  
+  for (int i = 0; i < height_; i++) {
+    for (int j = 0; j < 1000; j++) {
+      if( (i <=(goal_mb.y+3) && i> (goal_mb.y-3)) && (j <=(goal_mb.x+3) && j> (goal_mb.y-3)))
+      {
+      unsigned char value = (unsigned char) 0;
+      map_.at<cv::Vec3b>(i, j) = cv::Vec3b(value, value, value);
+      }
+     
+      
+
+    }
+  }
   // cv::circle(map_, cv::Point((int)goal_mb.x, (int)goal_mb.y), 4, cv::Scalar(0, 0, 255), -1);
   // cv::imshow("Map", map_);
   // cv::waitKey(100);
+  map_.copyTo(display_map_);
   publishGoal();
 }
 
@@ -89,6 +103,20 @@ void Planner::poseMBCallback(const geometry_msgs::PoseStamped::ConstPtr &pose) {
   // cv::circle(map_, cv::Point((int)pose_mb.x, (int)pose_mb.y), 4, cv::Scalar(0, 255, 0), -1);
   // cv::imshow("Map", map_);
   // cv::waitKey(100);
+
+  for (int i = 0; i < height_; i++) {
+    for (int j = 0; j < 1000; j++) {
+      if( (i <=(pose_mb.y+3) && i> (pose_mb.y-3)) && (j <=(pose_mb.x+3) && j> (pose_mb.y-3)))
+      {
+      unsigned char value = (unsigned char) 0;
+      map_.at<cv::Vec3b>(i, j) = cv::Vec3b(value, value, value);
+      }
+     
+      
+
+    }
+  }
+  map_.copyTo(display_map_);
   publishPose();
 }
 
@@ -127,7 +155,7 @@ void Planner::updateMapCallback(const planner::Num &update) {
 //   pose_mb.y = (height_ - pose->pose.position.y*10);
 //   ROS_INFO("Recieved pose: (%lf, %lf)", pose->pose.position.x, pose->pose.position.y);
 //   // cv::circle(map_, cv::Point((int)pose_mb.x, (int)pose_mb.y), 4, cv::Scalar(0, 255, 0), -1);
-  cv::imshow("Map", map_);
-  cv::waitKey(100);
+  // cv::imshow("Map", map_);
+  // cv::waitKey(100);
 //   publishPose();
 }
