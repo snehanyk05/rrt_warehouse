@@ -212,7 +212,7 @@ std::vector<Vertex> RRTPlanner::getPlan() {
   } else
     ROS_INFO("Could not reach goal");
   // ROS_INFO("In 6");
-  ROS_INFO("Total vertex in graph: %d", graph_->getSize());
+  // ROS_INFO("Total vertex in graph: %d", graph_->getSize());
 
   // cv::imshow("Path", display_map_);
   // cv::waitKey(100);

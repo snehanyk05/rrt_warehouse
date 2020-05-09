@@ -28,7 +28,7 @@ Planner::Planner() : private_nh_("~") {
 
   height_ = height_*10;
   // cv::namedWindow("Map");
-  ROS_INFO("Planner node initialized");
+  // ROS_INFO("Planner node initialized");
 }
 
 void Planner::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr &map) {
@@ -47,7 +47,7 @@ void Planner::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr &map) {
 void Planner::goalCallback(const geometry_msgs::Pose2D::ConstPtr &goal) {
   goal_.x = (int) goal->x;
   goal_.y = (int) goal->y;
-  ROS_INFO("Received goal: (%d, %d)", goal_.x, goal_.y);
+  // ROS_INFO("Received goal: (%d, %d)", goal_.x, goal_.y);
   if(pose_set_ && !map_.empty())
     getPlan();
 }
@@ -57,18 +57,18 @@ void Planner::poseCallback(const geometry_msgs::Pose2D::ConstPtr &pose) {
   pose_.x = (int) pose->x;
   pose_.y = (int) pose->y;
   pose_set_ = true;
-  ROS_INFO("Received pose : (%d, %d)", pose_.x, pose_.y);
+  // ROS_INFO("Received pose : (%d, %d)", pose_.x, pose_.y);
 }
 
 
 void Planner::publishPose() {
   pose_pub_.publish(pose_mb);
-  ROS_INFO("Published starting pose: (%lf, %lf)", pose_mb.x, pose_mb.y);
+  // ROS_INFO("Published starting pose: (%lf, %lf)", pose_mb.x, pose_mb.y);
 }
 
 void Planner::publishGoal() {
   goal_pub_.publish(goal_mb);
-  ROS_INFO("Published goal: (%lf, %lf)", goal_mb.x, goal_mb.y);
+  // ROS_INFO("Published goal: (%lf, %lf)", goal_mb.x, goal_mb.y);
 }
 
 void Planner::goalMBCallback(const geometry_msgs::PoseStamped::ConstPtr &goal) {
@@ -78,7 +78,7 @@ void Planner::goalMBCallback(const geometry_msgs::PoseStamped::ConstPtr &goal) {
   
   for (int i = 0; i < height_; i++) {
     for (int j = 0; j < 1000; j++) {
-      if( (i <=(goal_mb.y+3) && i> (goal_mb.y-3)) && (j <=(goal_mb.x+3) && j> (goal_mb.y-3)))
+      if( (i <=(goal_mb.y+1) && i> (goal_mb.y-1)) && (j <=(goal_mb.x+1) && j> (goal_mb.y-1)))
       {
       unsigned char value = (unsigned char) 0;
       map_.at<cv::Vec3b>(i, j) = cv::Vec3b(value, value, value);
@@ -106,7 +106,7 @@ void Planner::poseMBCallback(const geometry_msgs::PoseStamped::ConstPtr &pose) {
 
   for (int i = 0; i < height_; i++) {
     for (int j = 0; j < 1000; j++) {
-      if( (i <=(pose_mb.y+3) && i> (pose_mb.y-3)) && (j <=(pose_mb.x+3) && j> (pose_mb.y-3)))
+      if( (i <=(pose_mb.y+1) && i> (pose_mb.y-1)) && (j <=(pose_mb.x+1) && j> (pose_mb.y-1)))
       {
       unsigned char value = (unsigned char) 0;
       map_.at<cv::Vec3b>(i, j) = cv::Vec3b(value, value, value);
@@ -136,7 +136,7 @@ void Planner::updateMapCallback(const planner::Num &update) {
 
   for (int i = 0; i < height_; i++) {
     for (int j = 0; j < 1000; j++) {
-      if( (i <=(y+3) && i> (y-3)) && (j <=(x+3) && j> (x-3)))
+      if( (i <=(y+1) && i> (y-1)) && (j <=(x+1) && j> (x-1)))
       {
       unsigned char value = (unsigned char) 255;
       map_.at<cv::Vec3b>(i, j) = cv::Vec3b(value, value, value);
