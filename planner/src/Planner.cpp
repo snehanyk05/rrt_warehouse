@@ -76,18 +76,18 @@ void Planner::goalMBCallback(const geometry_msgs::PoseStamped::ConstPtr &goal) {
   goal_mb.y = (height_ - goal->pose.position.y*10);
   ROS_INFO("Recieved goal: (%lf, %lf)", goal->pose.position.x, goal->pose.position.y);
   
-  for (int i = 0; i < height_; i++) {
-    for (int j = 0; j < 1000; j++) {
-      if( (i <=(goal_mb.y+1) && i> (goal_mb.y-1)) && (j <=(goal_mb.x+1) && j> (goal_mb.y-1)))
-      {
-      unsigned char value = (unsigned char) 0;
-      map_.at<cv::Vec3b>(i, j) = cv::Vec3b(value, value, value);
-      }
+  // for (int i = 0; i < height_; i++) {
+  //   for (int j = 0; j < 1000; j++) {
+  //     if( (i <=(goal_mb.y+1) && i> (goal_mb.y-1)) && (j <=(goal_mb.x+1) && j> (goal_mb.y-1)))
+  //     {
+  //     unsigned char value = (unsigned char) 0;
+  //     map_.at<cv::Vec3b>(i, j) = cv::Vec3b(value, value, value);
+  //     }
      
       
 
-    }
-  }
+  //   }
+  // }
   // cv::circle(map_, cv::Point((int)goal_mb.x, (int)goal_mb.y), 4, cv::Scalar(0, 0, 255), -1);
   // cv::imshow("Map", map_);
   // cv::waitKey(100);
@@ -104,18 +104,18 @@ void Planner::poseMBCallback(const geometry_msgs::PoseStamped::ConstPtr &pose) {
   // cv::imshow("Map", map_);
   // cv::waitKey(100);
 
-  for (int i = 0; i < height_; i++) {
-    for (int j = 0; j < 1000; j++) {
-      if( (i <=(pose_mb.y+1) && i> (pose_mb.y-1)) && (j <=(pose_mb.x+1) && j> (pose_mb.y-1)))
-      {
-      unsigned char value = (unsigned char) 0;
-      map_.at<cv::Vec3b>(i, j) = cv::Vec3b(value, value, value);
-      }
+  // for (int i = 0; i < height_; i++) {
+  //   for (int j = 0; j < 1000; j++) {
+  //     if( (i <=(pose_mb.y+1) && i> (pose_mb.y-1)) && (j <=(pose_mb.x+1) && j> (pose_mb.y-1)))
+  //     {
+  //     unsigned char value = (unsigned char) 0;
+  //     map_.at<cv::Vec3b>(i, j) = cv::Vec3b(value, value, value);
+  //     }
      
       
 
-    }
-  }
+  //   }
+  // }
   map_.copyTo(display_map_);
   publishPose();
 }
