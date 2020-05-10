@@ -28,7 +28,7 @@ Planner::Planner() : private_nh_("~") {
 
   height_ = height_*10;
   // cv::namedWindow("Map");
-  // ROS_INFO("Planner node initialized");
+  ROS_INFO("Planner node initialized");
 }
 
 void Planner::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr &map) {
@@ -47,7 +47,7 @@ void Planner::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr &map) {
 void Planner::goalCallback(const geometry_msgs::Pose2D::ConstPtr &goal) {
   goal_.x = (int) goal->x;
   goal_.y = (int) goal->y;
-  // ROS_INFO("Received goal: (%d, %d)", goal_.x, goal_.y);
+  ROS_INFO("Received goal: (%d, %d)", goal_.x, goal_.y);
   if(pose_set_ && !map_.empty())
     getPlan();
 }
@@ -57,18 +57,18 @@ void Planner::poseCallback(const geometry_msgs::Pose2D::ConstPtr &pose) {
   pose_.x = (int) pose->x;
   pose_.y = (int) pose->y;
   pose_set_ = true;
-  // ROS_INFO("Received pose : (%d, %d)", pose_.x, pose_.y);
+  ROS_INFO("Received pose : (%d, %d)", pose_.x, pose_.y);
 }
 
 
 void Planner::publishPose() {
   pose_pub_.publish(pose_mb);
-  // ROS_INFO("Published starting pose: (%lf, %lf)", pose_mb.x, pose_mb.y);
+  ROS_INFO("Published starting pose: (%lf, %lf)", pose_mb.x, pose_mb.y);
 }
 
 void Planner::publishGoal() {
   goal_pub_.publish(goal_mb);
-  // ROS_INFO("Published goal: (%lf, %lf)", goal_mb.x, goal_mb.y);
+  ROS_INFO("Published goal: (%lf, %lf)", goal_mb.x, goal_mb.y);
 }
 
 void Planner::goalMBCallback(const geometry_msgs::PoseStamped::ConstPtr &goal) {
