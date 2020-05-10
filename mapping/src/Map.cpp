@@ -34,7 +34,7 @@ Map::Map() : private_nh_("~") {
 
 if (ros::ok())
 {
-  sleep(5);
+  sleep(60);
   publishMap();
 }
 
