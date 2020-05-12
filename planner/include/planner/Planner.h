@@ -17,7 +17,7 @@
 #include <vector>
 
 #include "planner/Graph.h"
-#include "planner/Num.h"
+// #include "planner/Num.h"
 
 class Planner {
  public:
@@ -45,7 +45,7 @@ class Planner {
   void poseCallback(const geometry_msgs::Pose2D::ConstPtr &pose);
   void goalMBCallback(const geometry_msgs::PoseStamped::ConstPtr &goal);
   void poseMBCallback(const geometry_msgs::PoseStamped::ConstPtr &pose);
-  void updateMapCallback(const planner::Num &update) ;
+  // void updateMapCallback(const planner::Num &update) ;
 
   ros::Publisher pose_pub_;
   ros::Publisher goal_pub_;

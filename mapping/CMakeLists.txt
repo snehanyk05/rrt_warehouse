@@ -13,7 +13,17 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 find_package(OpenCV REQUIRED)
-
+add_message_files(
+  DIRECTORY 
+  msg
+  FILES
+  Num.msg
+)
+generate_messages(
+  DEPENDENCIES
+  geometry_msgs
+  std_msgs
+)
 catkin_package(CATKIN_DEPENDS
         roscpp
         std_msgs

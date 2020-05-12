@@ -3,7 +3,7 @@
 //
 
 #include "planner/Planner.h"
-#include "planner/Num.h"
+// #include "planner/Num.h"
 #include <bits/stdc++.h> 
 #include <boost/algorithm/string.hpp>
 
@@ -21,7 +21,7 @@ Planner::Planner() : private_nh_("~") {
   map_sub_ = nh_.subscribe(map_topic_, 1, &Planner::mapCallback, this);
   goal_sub_ = nh_.subscribe(goal_topic_, 1, &Planner::goalCallback, this);
   pose_sub_ = nh_.subscribe(pose_topic_, 1, &Planner::poseCallback, this);
-  map_update_sub = nh_.subscribe(map_update_, 1, &Planner::updateMapCallback, this);
+  // map_update_sub = nh_.subscribe(map_update_, 1, &Planner::updateMapCallback, this);
   // std::cout<<map_topic_;
   goal_pub_ = nh_.advertise<geometry_msgs::Pose2D>(goal_topic_, 1);
   pose_pub_ = nh_.advertise<geometry_msgs::Pose2D>(pose_topic_, 1);
@@ -120,42 +120,42 @@ void Planner::poseMBCallback(const geometry_msgs::PoseStamped::ConstPtr &pose) {
   publishPose();
 }
 
-void Planner::updateMapCallback(const planner::Num &update) {
-  // ROS_INFO("Recieved update: (%s)",update.data*);
-  // ROS_INFO("%s\n", update.data[0].c_str());
-  og_map_.copyTo(map_);
+// void Planner::updateMapCallback(const planner::Num &update) {
+//   // ROS_INFO("Recieved update: (%s)",update.data*);
+//   // ROS_INFO("%s\n", update.data[0].c_str());
+//   og_map_.copyTo(map_);
   
-  for(int k = 0; k< update.data.size(); k++)
-  {
-  std::string data = update.data[k];  
-  std::vector<std::string> result; 
-  boost::split(result,data, boost::is_any_of(",")); 
-  // ROS_INFO("%d\n", std::stoi(result[0]));
-  int x = std::stoi(result[0])*10;
-  int y = height_ -  ((std::stoi(result[1]))*10);
+//   for(int k = 0; k< update.data.size(); k++)
+//   {
+//   std::string data = update.data[k];  
+//   std::vector<std::string> result; 
+//   boost::split(result,data, boost::is_any_of(",")); 
+//   // ROS_INFO("%d\n", std::stoi(result[0]));
+//   int x = std::stoi(result[0])*10;
+//   int y = height_ -  ((std::stoi(result[1]))*10);
 
-  for (int i = 0; i < height_; i++) {
-    for (int j = 0; j < 1000; j++) {
-      if( (i <=(y+1) && i> (y-1)) && (j <=(x+1) && j> (x-1)))
-      {
-      unsigned char value = (unsigned char) 255;
-      map_.at<cv::Vec3b>(i, j) = cv::Vec3b(value, value, value);
-      }
+//   for (int i = 0; i < height_; i++) {
+//     for (int j = 0; j < 1000; j++) {
+//       if( (i <=(y+1) && i> (y-1)) && (j <=(x+1) && j> (x-1)))
+//       {
+//       unsigned char value = (unsigned char) 255;
+//       map_.at<cv::Vec3b>(i, j) = cv::Vec3b(value, value, value);
+//       }
      
       
 
-    }
-  }
-  }
-  map_.copyTo(display_map_);
+//     }
+//   }
+//   }
+//   map_.copyTo(display_map_);
 
 
-  // std::cout<<update.data[0];
-//   pose_mb.x = (pose->pose.position.x*10);
-//   pose_mb.y = (height_ - pose->pose.position.y*10);
-//   ROS_INFO("Recieved pose: (%lf, %lf)", pose->pose.position.x, pose->pose.position.y);
-//   // cv::circle(map_, cv::Point((int)pose_mb.x, (int)pose_mb.y), 4, cv::Scalar(0, 255, 0), -1);
-  // cv::imshow("Map", map_);
-  // cv::waitKey(100);
-//   publishPose();
-}
+//   // std::cout<<update.data[0];
+// //   pose_mb.x = (pose->pose.position.x*10);
+// //   pose_mb.y = (height_ - pose->pose.position.y*10);
+// //   ROS_INFO("Recieved pose: (%lf, %lf)", pose->pose.position.x, pose->pose.position.y);
+// //   // cv::circle(map_, cv::Point((int)pose_mb.x, (int)pose_mb.y), 4, cv::Scalar(0, 255, 0), -1);
+//   // cv::imshow("Map", map_);
+//   // cv::waitKey(100);
+// //   publishPose();
+// }

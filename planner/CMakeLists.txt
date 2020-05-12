@@ -24,6 +24,7 @@ generate_messages(
 )
 catkin_package(CATKIN_DEPENDS
         roscpp
+        std_msgs
         geometry_msgs
         nav_msgs
         message_runtime
